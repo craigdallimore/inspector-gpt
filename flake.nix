@@ -15,22 +15,19 @@
       };
     in {
       devShells.default = pkgs.mkShell {
-
-        devShells.default = pkgs.mkShell {
-          buildInputs = [
-            pkgs.nodejs-16_x
-            pkgs.nodePackages.typescript
-            pkgs.nodePackages.typescript-language-server
-          ];
-          shellHook = ''
-            alias gst='git status'
-            alias gd='git diff'
-            alias gc='git commit'
-            :q() {
-              exit
-            }
-          '';
-        };
-      });
-  }
+        buildInputs = [
+          pkgs.nodejs-16_x
+          pkgs.nodePackages.typescript
+          pkgs.nodePackages.typescript-language-server
+        ];
+        shellHook = ''
+          alias gst='git status'
+          alias gd='git diff'
+          alias gc='git commit'
+          :q() {
+            exit
+          }
+        '';
+    };
+  });
 }
