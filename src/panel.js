@@ -1,3 +1,5 @@
+const KEY = "OPENAI_API_KEY";
+
 const $form = document.getElementById('api-key-form');
 const $input = $form.querySelector('input');
 const $error = document.getElementById('error');
@@ -18,16 +20,45 @@ function showErrorMessage(message) {
 /**
   * @param {string} value
   */
-function onSubmit(value) {
+async function onSubmit(value) {
 
   hideErrorMessage();
 
   if (value === '') {
     showErrorMessage('API key must not be empty!');
   } else {
-    browser.storage.local.set({ OPENAI_API_KEY: value });
-    $form.classList.add('is-hidden');
-    $main.classList.remove('is-hidden');
+
+    const url = "https://api.openai.com/v1/models";
+
+    try {
+
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${value}`,
+        }
+      });
+
+      if (!response.ok) {
+        throw "Something went wrong";
+      }
+
+      const data = await response.json();
+
+      console.log({data});
+      browser.storage.local.set({ [KEY]: value });
+
+      $form.classList.add('is-hidden');
+      $main.classList.remove('is-hidden');
+
+    } catch (e) {
+
+      console.error(e);
+      showErrorMessage(e.message);
+
+    }
+
+
   }
 
 }
@@ -44,12 +75,10 @@ $form.addEventListener('submit', (e) => {
 
 function main() {
 
-  browser.storage.local.get("OPENAI_API_KEY", (result) => {
-    console.log(result.key);
+  browser.storage.local.get(KEY, (result) => {
 
-    if (result.key) {
+    if (result[KEY]) {
       $main.classList.remove('is-hidden');
-      console.log(result.key);
     } else {
       $form.classList.remove('is-hidden');
     }

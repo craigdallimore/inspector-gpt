@@ -4,6 +4,8 @@
   "version": "0.1",
   "devtools_page": "src/devtools-page.html",
   "permissions": [
+      "storage",
+      "webRequest",
       "<all_urls>"
   ]
 }
