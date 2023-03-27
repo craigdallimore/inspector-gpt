@@ -2,16 +2,22 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="reset.css" type="text/css" rel="stylesheet"/>
     <link href="panel.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
 
-    <form id="api-key-form">
+    <form id="api-key-form" class="is-hidden">
       <span id="error" class="is-hidden"></span>
       <label for="input-key">Add your OpenAI API key here</label>
       <input type="text" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
       <button>Submit</button>
     </form>
+
+    <main class="is-hidden">
+      <h1>So far so good</h1>
+
+    </main>
 
     <script src="panel.js"></script>
   </body>

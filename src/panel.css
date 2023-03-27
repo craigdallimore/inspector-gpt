@@ -1,5 +1,33 @@
+* { box-sizing: border-box; }
+
+:root {
+  --color-white: #ffffff;
+  --color-light-gray: #f2f2f2;
+  --color-gray: #d9d9d9;
+  --color-dark-gray: #bfbfbf;
+  --color-charcoal: #a6a6a6;
+  --color-dark-charcoal: #8c8c8c;
+  --color-almost-black: #737373;
+  --color-black: #595959;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Apply styles for dark mode here */
+  body {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+}
+
 body {
-  border: 4px solid hotpink;
+  margin: 0;
 }
 
 .is-hidden {

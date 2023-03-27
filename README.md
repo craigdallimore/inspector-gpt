@@ -1,12 +1,17 @@
-# Development
+# Chat GPT devtools extension
 
-### To load the extension in firefox
+### To load the extension in firefox (simple)
 
 - go to [here](about:debugging#/runtime/this-firefox)
 - Click "load temporary add on"
 
-This is also where you go to reload the extension after makig changes
+This is also where you go to reload the extension after making changes
 
+Alternatively, use `web-ext` from npm to get live-reload:
+
+```
+web-ext run
+```
 
 ### Things to do
 
