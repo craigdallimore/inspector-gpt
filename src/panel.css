@@ -1,0 +1,7 @@
+body {
+  border: 4px solid hotpink;
+}
+
+.is-hidden {
+  display: none;
+}

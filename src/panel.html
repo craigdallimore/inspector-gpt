@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="panel.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
-     <button id="button_h1">Inspect h1</button>
-     <button id="button_background">Reddinate inspected element</button>
-     <button id="button_jquery">Check for jquery</button>
-     <button id="button_message">Inject content script</button>
+
+    <form id="api-key-form">
+      <span id="error" class="is-hidden"></span>
+      <label for="input-key">Add your OpenAI API key here</label>
+      <input type="text" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+      <button>Submit</button>
+    </form>
+
     <script src="panel.js"></script>
   </body>
 </html>

@@ -18,6 +18,7 @@
         buildInputs = [
           pkgs.nodejs-16_x
           pkgs.nodePackages.typescript
+          pkgs.nodePackages.web-ext
           pkgs.nodePackages.typescript-language-server
         ];
         shellHook = ''
