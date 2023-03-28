@@ -1,13 +1,12 @@
 import typescript from '@rollup/plugin-typescript';
-import solid from 'rollup-plugin-solid';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 export default {
   input: 'src/index.tsx',
   output: {
-    file: 'dist/bundle.js',
+    file: 'plugin/bundle.js',
     format: 'iife',
     sourcemap: true,
   },
@@ -15,7 +14,6 @@ export default {
     nodeResolve({ browser: true }),
     commonjs(),
     typescript(),
-    solid(),
     terser(),
   ],
 };
