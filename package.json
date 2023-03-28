@@ -5,15 +5,18 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/react": "^18.0.30",
     "@types/react-dom": "^18.0.11",
+    "@types/styled-components": "^5.1.26",
     "rollup-preset-solid": "^2.0.1"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "styled-components": "^5.3.9",
     "tslib": "^2.5.0"
   }
 }
