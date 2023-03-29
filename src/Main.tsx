@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import styled from 'styled-components';
 
 const Layout = styled.main`
@@ -36,11 +36,11 @@ const List = styled.ul`
     padding: 10px 15px;
   }
 
-  .sent {
+  .user {
     justify-content: flex-end;
     margin-left: auto;
   }
-  .received {
+  .assistant {
     justify-content: flex-start;
     margin-right: auto;
   }
@@ -54,9 +54,83 @@ const Footer = styled.footer`
 
 type Props = {
   clearToken: () => void;
+  token: string;
 };
 
+type Message = {
+  role: 'user' | 'system' | 'assistant',
+  content: string
+};
+
+/*
+{"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Who won the world series in 2020?"},
+        {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+        {"role": "user", "content": "Where was it played?"}
+*/
+
 export default function Main(props: Props) {
+  const [prompt, setPrompt] = React.useState<string>('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [messages, setMessages] = React.useState<Message[]>([{
+    role: 'system',
+    content: 'you are a helpful assistant'
+  }]);
+
+  async function handle() {
+
+    const sentMessage:Message = {
+      role: 'user',
+      content: prompt
+    };
+
+    const nextMessages = [...messages, sentMessage];
+
+    setIsLoading(true);
+    setMessages(nextMessages);
+    const url ='https://api.openai.com/v1/chat/completions';
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${props.token}`
+        },
+        body: JSON.stringify({
+          "model": "gpt-3.5-turbo",
+          "messages": nextMessages
+        })
+      })
+      if (!response.ok) {
+        throw 'Something went wrong';
+      }
+      const data = await response.json();
+
+      setError(null);
+      setPrompt('');
+
+      const receivedMessage: Message = {
+        role: 'assistant',
+        content: data.choices[0].message.content
+      };
+
+      setMessages([...nextMessages, receivedMessage]);
+
+    } catch {
+      setError('Something went wrong sending the message. Try again?');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    handle();
+  }
+
+  const [, ...rest] = messages;
+
   return (
     <Layout>
       <Header>
@@ -64,14 +138,23 @@ export default function Main(props: Props) {
         <button onClick={props.clearToken}>Clear token</button>
       </Header>
       <List>
-        <li className='sent'>Hi local 1</li>
-        <li className='received'>Hi remote 2</li>
-        <li className='received'>Hi remote 3</li>
-        <li className='received'>Hi remote 4</li>
-        <li className='sent'>Hi local 5</li>
+        {rest.map((m, i) => {
+          return (
+            <li key={`message-${i}`} className={m.role}>{m.content}</li>
+          );
+        })}
       </List>
       <Footer>
-        <input type='text' />
+        <form onSubmit={onSubmit}>
+          <input
+            type='text'
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            disabled={isLoading}
+          />
+          {isLoading && <span>...</span>}
+          {error && <span>ERROR {error}</span>}
+        </form>
       </Footer>
     </Layout>
   );

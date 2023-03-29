@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <Section>
-      {token ? <Main clearToken={clearToken}/> : <KeyForm onValidKey={storeToken}/>}
+      {token ? <Main token={token} clearToken={clearToken}/> : <KeyForm onValidKey={storeToken}/>}
     </Section>
   );
 }
