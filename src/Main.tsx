@@ -64,14 +64,14 @@ export default function Main(props: Props) {
         <button onClick={props.clearToken}>Clear token</button>
       </Header>
       <List>
-        <li className="sent">Hi local 1</li>
-        <li className="received">Hi remote 2</li>
-        <li className="received">Hi remote 3</li>
-        <li className="received">Hi remote 4</li>
-        <li className="sent">Hi local 5</li>
+        <li className='sent'>Hi local 1</li>
+        <li className='received'>Hi remote 2</li>
+        <li className='received'>Hi remote 3</li>
+        <li className='received'>Hi remote 4</li>
+        <li className='sent'>Hi local 5</li>
       </List>
       <Footer>
-        <input type='text'/>
+        <input type='text' />
       </Footer>
     </Layout>
   );
