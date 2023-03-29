@@ -33,3 +33,5 @@ web-ext run
 - [x] A way to clear your token
 - [ ] MVP chat interface
 - [ ] Check it works in Chrome
+- [ ] Make it look GREAT
+- [ ] Add a way to communite to it from the javascript console

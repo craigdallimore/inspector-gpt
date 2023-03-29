@@ -7,10 +7,9 @@ const KEY = "OPENAI_API_KEY";
 
 const Section = styled.section`
   border: 4px solid hotpink;
-  color: white;
-  font-size: 16px;
-  padding: 8px 16px;
-  border-radius: 4px;
+  flex: 1 1 auto;
+  display: flex;
+  height: 100%;
 `;
 
 export default function App() {
