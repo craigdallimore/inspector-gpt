@@ -17,9 +17,16 @@ export default function App() {
 
   const [token, setToken] = React.useState<string | null>(null);
 
+  async function clearToken() {
+    // @ts-ignore
+    await browser.storage.local.remove(KEY);
+    setToken(null);
+  }
+
   React.useEffect(() => {
 
-    browser.storage.local.get(KEY, (result) => {
+    // @ts-ignore
+    browser.storage.local.get(KEY, (result: {[key: string]: string}) => {
 
       if (result[KEY]) {
         setToken(result[KEY]);
@@ -31,7 +38,7 @@ export default function App() {
 
   return (
     <Section>
-      {token ? <Main/> : <KeyForm onValidKey={setToken}/>}
+      {token ? <Main clearToken={clearToken}/> : <KeyForm onValidKey={setToken}/>}
     </Section>
   );
 }

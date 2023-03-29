@@ -42,6 +42,7 @@ export default function KeyForm(props: Props) {
       {error && <span>{error}</span>}
       <label htmlFor='input-key'>Add your OpenAI API key here</label>
       <input
+        autoFocus
         value={key}
         type='text'
         onChange={(e) => setKey(e.target.value)}

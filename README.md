@@ -29,7 +29,7 @@ web-ext run
 - [x] Improve icon (light and dark mode, 16x16)
 - [x] MVP for adding `OPENAI_API_KEY`
 - [x] Styled components
-- [ ] Prettier
-- [ ] A way to clear your token
+- [x] Prettier
+- [x] A way to clear your token
 - [ ] MVP chat interface
 - [ ] Check it works in Chrome

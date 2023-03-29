@@ -1,10 +1,17 @@
 import React from 'react';
 
-export  default function Main() {
+type Props = {
+  clearToken: () => void
+};
+
+export  default function Main(props: Props) {
 
   return (
     <main>
-      <h1>So far so good</h1>
+      <header>
+        <h1>Inspector GPT</h1>
+        <button onClick={props.clearToken}>Clear token</button>
+      </header>
 
 
 
