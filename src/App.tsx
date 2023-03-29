@@ -23,6 +23,12 @@ export default function App() {
     setToken(null);
   }
 
+  async function storeToken(t: string) {
+    // @ts-ignore
+    await browser.storage.local.set({[KEY]: t});
+    setToken(t);
+  }
+
   React.useEffect(() => {
 
     // @ts-ignore
@@ -38,7 +44,7 @@ export default function App() {
 
   return (
     <Section>
-      {token ? <Main clearToken={clearToken}/> : <KeyForm onValidKey={setToken}/>}
+      {token ? <Main clearToken={clearToken}/> : <KeyForm onValidKey={storeToken}/>}
     </Section>
   );
 }
