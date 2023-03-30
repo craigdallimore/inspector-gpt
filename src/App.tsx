@@ -39,6 +39,11 @@ export default function App() {
 
     });
 
+    // @ts-ignore
+    browser.runtime.onMessage.addListener((message) => {
+      console.log('message from console', { message });
+    });
+
   }, [])
 
   return (

@@ -1,3 +1,4 @@
 key
 node_modules
-plugin/bundle*
+plugin/panel-bundle*
+plugin/popup-bundle*

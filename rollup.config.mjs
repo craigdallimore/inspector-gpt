@@ -4,21 +4,32 @@ import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 import replace from '@rollup/plugin-replace';
 
-export default {
+const plugins = [
+  replace({
+    preventAssignment: true,
+    'process.env.NODE_ENV': JSON.stringify( 'production' )
+  }),
+  nodeResolve({ browser: true }),
+  commonjs(),
+  typescript(),
+  terser(),
+];
+
+export default [{
   input: 'src/index.tsx',
   output: {
-    file: 'plugin/bundle.js',
+    file: 'plugin/panel-bundle.js',
     format: 'iife',
     sourcemap: true,
   },
-  plugins: [
-    replace({
-      preventAssignment: true,
-      'process.env.NODE_ENV': JSON.stringify( 'production' )
-    }),
-    nodeResolve({ browser: true }),
-    commonjs(),
-    typescript(),
-    terser(),
-  ],
-};
+  plugins
+}, {
+  input: 'src/Popup/index.tsx',
+  output: {
+    file: 'plugin/popup-bundle.js',
+    format: 'iife',
+    sourcemap: true,
+  },
+  plugins
+
+}];
