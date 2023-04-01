@@ -1,8 +1,29 @@
 import React, { FormEvent } from 'react';
+import styled from 'styled-components';
 
 type Props = {
   onValidKey: (key: string) => void;
 };
+
+const Form = styled.form`
+  align-self: center;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--color-dark-charcoal);
+  display: flex;
+  flex-direction: column;
+  width: 40rem;
+  > * + * {
+    margin-top: 0.5rem;
+  }
+  label {
+    color: var(--color-white);
+  }
+  button {
+    width: min-content;
+    margin-left: auto;
+  }
+`;
 
 export default function KeyForm(props: Props) {
   const [key, setKey] = React.useState('');
@@ -38,17 +59,17 @@ export default function KeyForm(props: Props) {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       {error && <span>{error}</span>}
       <label htmlFor='input-key'>Add your OpenAI API key here</label>
       <input
         autoFocus
         value={key}
-        type='text'
+        type='password'
         onChange={(e) => setKey(e.target.value)}
         placeholder='sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
       />
       <button>Submit</button>
-    </form>
+    </Form>
   );
 }
