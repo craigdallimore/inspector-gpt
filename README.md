@@ -33,7 +33,7 @@ web-ext run
 - [x] A way to clear your token
 - [x] MVP chat interface
 - [x] Better loading state
-- [ ] Make conversation scrollable
+- [x] Make conversation scrollable
 - [ ] Style code blocks
 - [ ] Expose more controls (what are they?)
   - [ ] Clear/new conversation

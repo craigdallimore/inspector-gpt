@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Message } from '../types';
+import Markdown from 'markdown-to-jsx';
 
 const Section = styled.section`
-  border: 4px solid rebeccapurple;
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -19,7 +19,6 @@ const ListStyle = styled.ul`
   max-width: 60rem;
   min-width: 30rem;
   align-self: center;
-  border: 4px solid pink;
 
   li {
     align-items: center;
@@ -64,7 +63,7 @@ export default function List(props: Props) {
         {props.messages.map((m: Message, i: number) => {
           return (
             <li key={`message-${i}`} className={m.role}>
-              {m.content}
+              {m.role === 'assistant' ? <Markdown>{m.content}</Markdown> : m.content}
             </li>
           );
         })}
