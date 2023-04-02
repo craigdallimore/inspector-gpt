@@ -9,19 +9,22 @@ const Form = styled.form`
   align-self: center;
   margin: 0 auto;
   padding: 2rem;
-  background-color: var(--color-dark-charcoal);
-  display: flex;
+  display: grid;
+  grid-template: "label label"
+                 "input button";
   flex-direction: column;
   width: 40rem;
-  > * + * {
-    margin-top: 0.5rem;
+  grid-gap: 0.5rem;
+  input {
+    grid-area: input;
   }
   label {
     color: var(--color-white);
+    grid-area: label;
   }
   button {
     width: min-content;
-    margin-left: auto;
+    grid-area: button;
   }
 `;
 

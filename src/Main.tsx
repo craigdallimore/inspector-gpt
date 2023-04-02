@@ -5,25 +5,33 @@ const Layout = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: stretch;
+  width: 100%;
   height: 100%;
 `;
 
 const Header = styled.header`
-  border: 4px solid papayawhip;
+  border-bottom: 1px solid var(--color-white);
+  padding: 1rem;
   display: flex;
   flex: 0 1 auto;
+  h1 {
+    font-weight: bold;
+  }
   button {
     margin-left: auto;
   }
 `;
 
 const List = styled.ul`
-  border: 4px solid cyan;
   display: flex;
   flex-direction: column;
+  padding: 1rem;
   flex: 1 1 auto;
   overflow: auto;
   justify-content: flex-end;
+  max-width: 60rem;
+  min-width: 30rem;
+  align-self: center;
 
   li {
     align-items: center;
@@ -39,17 +47,21 @@ const List = styled.ul`
   .user {
     justify-content: flex-end;
     margin-left: auto;
+    border-bottom-right-radius: 0;
   }
   .assistant {
     justify-content: flex-start;
     margin-right: auto;
+    border-bottom-left-radius: 0;
   }
 `;
 
 const Footer = styled.footer`
-  border: 4px solid rebeccapurple;
+  border-top 1px solid var(--color-white);
+  padding: 1rem;
   flex: 0 1 auto;
   display: flex;
+  justify-content: center;
 `;
 
 type Props = {
@@ -58,43 +70,44 @@ type Props = {
 };
 
 type Message = {
-  role: 'user' | 'system' | 'assistant',
-  content: string
+  role: 'user' | 'system' | 'assistant';
+  content: string;
 };
 
 export default function Main(props: Props) {
   const [prompt, setPrompt] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [messages, setMessages] = React.useState<Message[]>([{
-    role: 'system',
-    content: 'you are a helpful assistant'
-  }]);
+  const [messages, setMessages] = React.useState<Message[]>([
+    {
+      role: 'system',
+      content: 'you are a helpful assistant',
+    },
+  ]);
 
   async function handle() {
-
-    const sentMessage:Message = {
+    const sentMessage: Message = {
       role: 'user',
-      content: prompt
+      content: prompt,
     };
 
     const nextMessages = [...messages, sentMessage];
 
     setIsLoading(true);
     setMessages(nextMessages);
-    const url ='https://api.openai.com/v1/chat/completions';
+    const url = 'https://api.openai.com/v1/chat/completions';
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          Authorization: `Bearer ${props.token}`,
         },
         body: JSON.stringify({
-          "model": "gpt-3.5-turbo",
-          "messages": nextMessages
-        })
-      })
+          model: 'gpt-3.5-turbo',
+          messages: nextMessages,
+        }),
+      });
       if (!response.ok) {
         throw 'Something went wrong';
       }
@@ -105,11 +118,10 @@ export default function Main(props: Props) {
 
       const receivedMessage: Message = {
         role: 'assistant',
-        content: data.choices[0].message.content
+        content: data.choices[0].message.content,
       };
 
       setMessages([...nextMessages, receivedMessage]);
-
     } catch {
       setError('Something went wrong sending the message. Try again?');
     } finally {
@@ -133,13 +145,16 @@ export default function Main(props: Props) {
       <List>
         {rest.map((m, i) => {
           return (
-            <li key={`message-${i}`} className={m.role}>{m.content}</li>
+            <li key={`message-${i}`} className={m.role}>
+              {m.content}
+            </li>
           );
         })}
       </List>
       <Footer>
         <form onSubmit={onSubmit}>
           <input
+            autoFocus
             type='text'
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}

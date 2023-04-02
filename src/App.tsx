@@ -5,16 +5,6 @@ import Main from "./Main";
 
 const KEY = "OPENAI_API_KEY";
 
-const Inter = styled.h1`
-  font-family: Inter;
-`;
-const Orbitron = styled.h1`
-  font-family: Orbitron;
-`;
-const VT323 = styled.h1`
-  font-family: VT323;
-`;
-
 const Section = styled.section`
   flex: 1 1 auto;
   display: flex;
@@ -57,9 +47,6 @@ export default function App() {
 
   return (
     <Section>
-      <Inter>Inter</Inter>
-      <Orbitron>Orbitron</Orbitron>
-      <VT323>VT323</VT323>
       {token ? <Main token={token} clearToken={clearToken}/> : <KeyForm onValidKey={storeToken}/>}
     </Section>
   );
