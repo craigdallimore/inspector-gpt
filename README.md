@@ -31,9 +31,15 @@ web-ext run
 - [x] Styled components
 - [x] Prettier
 - [x] A way to clear your token
-- [ ] MVP chat interface
+- [x] MVP chat interface
+- [ ] Better loading state
+- [ ] Make conversation scrollable
+- [ ] Style code blocks
+- [ ] Expose more controls (what are they?)
+- [ ] Find and handle limits
+- [ ] Clear/new conversation
+- [ ] Hide "clear token"
 - [ ] Check it works in Chrome
 - [ ] Get lint working properly
 - [ ] Get prettier working properly
-- [ ] Make it look GREAT
-- [ ] Add a way to communite to it from the javascript console
+- [ ] Add a way to communicate to it from the javascript console

@@ -1,5 +1,7 @@
-import React, { FormEvent } from 'react';
+import React, { useReducer } from 'react';
 import styled from 'styled-components';
+import { Action, State } from './types';
+import Footer from './Footer';
 
 const Layout = styled.main`
   display: flex;
@@ -16,6 +18,7 @@ const Header = styled.header`
   flex: 0 1 auto;
   h1 {
     font-weight: bold;
+    font-family: VT323;
   }
   button {
     margin-left: auto;
@@ -56,85 +59,59 @@ const List = styled.ul`
   }
 `;
 
-const Footer = styled.footer`
-  border-top 1px solid var(--color-white);
-  padding: 1rem;
-  flex: 0 1 auto;
-  display: flex;
-  justify-content: center;
-`;
-
 type Props = {
   clearToken: () => void;
   token: string;
 };
 
-type Message = {
-  role: 'user' | 'system' | 'assistant';
-  content: string;
+const initialState: State = {
+  messages: [],
+  systemMessage: {
+    role: 'system',
+    content: 'you are a helpful assistant',
+  },
+  prompt: '',
+  isLoading: false,
+  error: null
 };
 
-export default function Main(props: Props) {
-  const [prompt, setPrompt] = React.useState<string>('');
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
-  const [messages, setMessages] = React.useState<Message[]>([
-    {
-      role: 'system',
-      content: 'you are a helpful assistant',
-    },
-  ]);
+const reducer = function(state: State, action: Action):State {
 
-  async function handle() {
-    const sentMessage: Message = {
-      role: 'user',
-      content: prompt,
-    };
-
-    const nextMessages = [...messages, sentMessage];
-
-    setIsLoading(true);
-    setMessages(nextMessages);
-    const url = 'https://api.openai.com/v1/chat/completions';
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${props.token}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: nextMessages,
-        }),
-      });
-      if (!response.ok) {
-        throw 'Something went wrong';
-      }
-      const data = await response.json();
-
-      setError(null);
-      setPrompt('');
-
-      const receivedMessage: Message = {
-        role: 'assistant',
-        content: data.choices[0].message.content,
-      };
-
-      setMessages([...nextMessages, receivedMessage]);
-    } catch {
-      setError('Something went wrong sending the message. Try again?');
-    } finally {
-      setIsLoading(false);
+  switch(action.type) {
+    case 'PROMPT_UPDATED': {
+      return {...state, prompt: action.payload };
     }
+    case 'MESSAGE_SENT': {
+      return {
+        ...state,
+        messages: [action.payload, ...state.messages],
+        isLoading: true
+      };
+    }
+    case 'MESSAGE_RECEIVED': {
+      return {
+        ...state,
+        messages: [...state.messages, action.payload],
+        isLoading: false,
+        error: null
+      }
+    }
+    case 'ERROR_OCCURRED': {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      }
+    }
+    default:
+      return state;
   }
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    handle();
-  }
+}
 
-  const [, ...rest] = messages;
+export default function Main(props: Props) {
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <Layout>
@@ -143,7 +120,7 @@ export default function Main(props: Props) {
         <button onClick={props.clearToken}>Clear token</button>
       </Header>
       <List>
-        {rest.map((m, i) => {
+        {state.messages.map((m, i) => {
           return (
             <li key={`message-${i}`} className={m.role}>
               {m.content}
@@ -151,19 +128,11 @@ export default function Main(props: Props) {
           );
         })}
       </List>
-      <Footer>
-        <form onSubmit={onSubmit}>
-          <input
-            autoFocus
-            type='text'
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            disabled={isLoading}
-          />
-          {isLoading && <span>...</span>}
-          {error && <span>ERROR {error}</span>}
-        </form>
-      </Footer>
+      <Footer
+        state={state}
+        dispatch={dispatch}
+        token={props.token}
+      />
     </Layout>
   );
 }
