@@ -74,11 +74,21 @@ export default function Footer(props: Props) {
     }
   }
 
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+  }, [state.isLoading]);
+
   return (
     <FooterStyle>
       <form onSubmit={onSubmit}>
         <input
-          autoFocus
+          ref={inputRef}
           type='text'
           value={state.prompt}
           onChange={(e) =>
@@ -86,7 +96,6 @@ export default function Footer(props: Props) {
           }
           disabled={state.isLoading}
         />
-        {state.isLoading && <span>...</span>}
         {state.error && <span>ERROR {state.error}</span>}
       </form>
     </FooterStyle>

@@ -51,7 +51,7 @@ const reducer = function(state: State, action: Action):State {
     case 'MESSAGE_SENT': {
       return {
         ...state,
-        messages: [action.payload, ...state.messages],
+        messages: [...state.messages, action.payload],
         isLoading: true
       };
     }
@@ -87,7 +87,7 @@ export default function Main(props: Props) {
         <h1>Inspector GPT</h1>
         <button onClick={props.clearToken}>Clear token</button>
       </Header>
-      <List messages={state.messages}/>
+      <List messages={state.messages} isLoading={state.isLoading}/>
       <Footer
         state={state}
         dispatch={dispatch}
