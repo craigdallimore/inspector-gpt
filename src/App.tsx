@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import KeyForm from "./KeyForm";
-import Main from "./Main";
+import Main from "./Main/Main";
 
 const KEY = "OPENAI_API_KEY";
 

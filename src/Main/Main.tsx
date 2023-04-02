@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import styled from 'styled-components';
-import { Action, State } from './types';
+import { Action, State } from '../types';
+import List from './List';
 import Footer from './Footer';
 
 const Layout = styled.main`
@@ -22,40 +23,6 @@ const Header = styled.header`
   }
   button {
     margin-left: auto;
-  }
-`;
-
-const List = styled.ul`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  flex: 1 1 auto;
-  overflow: auto;
-  justify-content: flex-end;
-  max-width: 60rem;
-  min-width: 30rem;
-  align-self: center;
-
-  li {
-    align-items: center;
-    background-color: #f1f0f0;
-    border-radius: 15px;
-    color: #000;
-    display: flex;
-    margin-bottom: 10px;
-    max-width: 60%;
-    padding: 10px 15px;
-  }
-
-  .user {
-    justify-content: flex-end;
-    margin-left: auto;
-    border-bottom-right-radius: 0;
-  }
-  .assistant {
-    justify-content: flex-start;
-    margin-right: auto;
-    border-bottom-left-radius: 0;
   }
 `;
 
@@ -92,6 +59,7 @@ const reducer = function(state: State, action: Action):State {
       return {
         ...state,
         messages: [...state.messages, action.payload],
+        prompt: '',
         isLoading: false,
         error: null
       }
@@ -119,15 +87,7 @@ export default function Main(props: Props) {
         <h1>Inspector GPT</h1>
         <button onClick={props.clearToken}>Clear token</button>
       </Header>
-      <List>
-        {state.messages.map((m, i) => {
-          return (
-            <li key={`message-${i}`} className={m.role}>
-              {m.content}
-            </li>
-          );
-        })}
-      </List>
+      <List messages={state.messages}/>
       <Footer
         state={state}
         dispatch={dispatch}

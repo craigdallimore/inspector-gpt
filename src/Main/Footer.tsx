@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
 import styled from 'styled-components';
-import { Action, Message, State } from './types';
+import { Action, Message, State } from '../types';
 
 const FooterStyle = styled.footer`
   border-top 1px solid var(--color-white);
