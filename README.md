@@ -34,7 +34,8 @@ web-ext run
 - [x] MVP chat interface
 - [x] Better loading state
 - [x] Make conversation scrollable
-- [ ] Style code blocks
+- [x] Style code blocks
+- [ ] Put on github
 - [ ] Expose more controls (what are they?)
   - [ ] Clear/new conversation
 - [ ] Find and handle limits
@@ -44,3 +45,4 @@ web-ext run
 - [ ] Get lint working properly
 - [ ] Get prettier working properly
 - [ ] Add a way to communicate to it from the javascript console
+- [ ] Settings: make markdown rendering opt-in
